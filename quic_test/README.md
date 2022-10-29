@@ -1,7 +1,7 @@
 # QUIC toy server and client setup guide
 
 ## Download required files
-Download the QUIC binaries from [here](https://drive.google.com/file/d/1aLskldTWSjkwHhLZJ-VHQ5FJjE0ZtQO2/view?usp=share_link) and the certificate files from [here](https://drive.google.com/file/d/1aLskldTWSjkwHhLZJ-VHQ5FJjE0ZtQO2/view?usp=share_link). Extract the two compressed files into the same directory of this README file. For the rest of this guide, we will assume all the commands are run in this directory.
+Download the QUIC binaries from [here](https://drive.google.com/file/d/1aLskldTWSjkwHhLZJ-VHQ5FJjE0ZtQO2/view?usp=share_link) and the certificate files from [here](https://drive.google.com/file/d/1KUiLFjDsEG8iBZt1cIi0Kmuz3d_aXKTq/view?usp=share_link). Extract the two compressed files into the same directory of this README file. For the rest of this guide, we will assume all the commands are run in this directory.
 
 ```bash
 $ tar -xvf quic.tar.gz
