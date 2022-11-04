@@ -1,0 +1,12 @@
+#!/bin/bash
+
+P4RUNTIME_SH_DOCKER_NAME=${P4RUNTIME_SH_DOCKER_NAME:-p4runtime-sh}
+P4RUNTIME_SH_IMG=${P4RUNTIME_SH_IMG:-p4lang/p4runtime-sh:latest}
+P4RUNTIME_SH_MOUNT_DIR=${P4RUNTIME_SH_MOUNT_DIR:-${PWD}}
+
+docker run -it --rm \
+  --name $P4RUNTIME_SH_DOCKER_NAME \
+  --network host \
+  -v "${P4RUNTIME_SH_MOUNT_DIR}":/workdir -w /workdir \
+  --entrypoint "bash" \
+  ${P4RUNTIME_SH_IMG} --login -c "source /p4runtime-sh/venv/bin/activate && python3 $@"

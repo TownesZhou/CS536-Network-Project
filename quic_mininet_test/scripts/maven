@@ -1,0 +1,10 @@
+#!/bin/bash
+
+MAVEN_IMG=${MAVEN_IMG:-maven:3.6.3-jdk-11}
+MAVEN_MOUNT_DIR=${MAVEN_MOUNT_DIR:-$PWD}
+
+docker run --rm \
+  -v "$MAVEN_MOUNT_DIR":/workdir -w /workdir \
+  -v ~/.m2:/var/maven/.m2 \
+  -e MAVEN_CONFIG=/var/maven/.m2 \
+  $MAVEN_IMG mvn -Duser.home=/var/maven "$@"

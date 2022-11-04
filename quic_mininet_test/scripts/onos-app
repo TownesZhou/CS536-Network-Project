@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ONOS_APP_DOCKER_NAME=${ONOS_APP_DOCKER_NAME:-onos-app}
+ONOS_APP_UTILS_DIR=$(cd "$(dirname "$0")"; pwd)/utils
+ONOS_APP_OCI=${ONOS_APP_OCI:-127.0.0.1}
+ONOS_APP_IMG=${ONOS_APP_IMG:-maven:3.6.3-jdk-11}
+ONOS_APP_MOUNT_DIR=${ONOS_APP_MOUNT_DIR:-$PWD}
+
+docker run -it --rm \
+  --name $ONOS_APP_DOCKER_NAME \
+  --network host \
+  -v "$ONOS_APP_UTILS_DIR"/onos:/utils/onos \
+  -v "$ONOS_APP_MOUNT_DIR":/workdir -w /workdir \
+  $ONOS_APP_IMG /utils/onos/onos-app $ONOS_APP_OCI "$@"
