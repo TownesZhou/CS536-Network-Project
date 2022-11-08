@@ -10,6 +10,10 @@ Open a new terminal window and cd into the same directory of `/quic_mininet_test
 
 ```bash
 make mininet
+
+# When you want to set a bandwidth limit, use mininet-bandwidth target instead.
+# ex: 10 Mbps limit
+make mininet-bandwidth bw=10
 ```
 
 Open up another terminal window in the same directory. Run the following command to install necessary dependencies and install the server's certificate file:
