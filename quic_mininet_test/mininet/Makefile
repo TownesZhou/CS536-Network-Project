@@ -23,10 +23,17 @@
 
 SCRIPTS = ../scripts
 
+export bw ?= 100
+
 .PHONY: mininet mininet-monut controller cli netcfg host-h1 host-h2
 
 mininet:
 	$(SCRIPTS)/mn-stratum
+
+# Set Maximum Bandwidth between 0 - 1000
+# ex: 100 -> 100 Mbps
+mininet-bandwidth:
+	$(SCRIPTS)/mn-stratum --link=tc,bw=$(bw)
 
 mininet-prereqs:
 	docker exec -it mn-stratum bash -c \
@@ -52,3 +59,7 @@ host-h1:
 
 host-h2:
 	$(SCRIPTS)/utils/mn-stratum/exec h2
+
+quic-server:
+	$(SCRIPTS)/utils/mn-stratum/exec-d-script h2 \
+		"./Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=out/leaf_cert.pem --key_file=out/leaf_cert.pkcs8"
