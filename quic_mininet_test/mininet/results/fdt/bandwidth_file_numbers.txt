@@ -1,0 +1,26 @@
+#For the different number of files and different bandwidth for quic mininet
+
+10 MBPS
+
+5kb x 200  = 6634.06
+10kb x 100 = 3268.34
+100kb x 10 = 312.28
+200kb x 5  = 161.42
+500kb x 2  = 71.12
+1MB x 1    = 34.22
+50 MBPS
+
+5kb x 200  = 6534.09
+10kb x 100 = 3249.91
+100kb x 10 = 310.10
+200kb x 5  = 157.66
+500kb x 2  = 68.42
+1MB x 1    = 32.25
+100 MBPS
+
+5kb x 200  = 6500.42
+10kb x 100 = 3212.19
+100kb x 10 = 308.66
+200kb x 5  = 157.58
+500kb x 2  = 66.67
+1MB x 1    = 31.90
