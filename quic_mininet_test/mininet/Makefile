@@ -39,7 +39,7 @@ mininet-prereqs:
 	docker exec -it mn-stratum bash -c \
 		"echo deb http://deb.debian.org/debian buster main non-free contrib > /etc/apt/sources.list.d/test.list ; \
 		 apt-get update ; \
-		 apt-get install libgtk-3-0 libnss3-tools libc6 ; \
+		 apt-get install libgtk-3-0 libnss3-tools libc6 iptraf -y; \
 		 mkdir -p /workdir/.pki/nssdb ; \
 		 certutil -d /workdir/.pki/nssdb -N --empty-password ; \
 		 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n quic_cert -i out/2048-sha256-root.pem"
