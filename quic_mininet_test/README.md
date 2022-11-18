@@ -84,3 +84,22 @@ Finally, try to download the `image.jpeg` file:
 
 If succssful, you should see a `quic_client_out.txt` file with size `9.8M`.  
 
+### Run multiple QUIC client processes parallelly
+
+I made a simple bash script that initiate a given number of QUIC client processes parallelly in the backgroud. Simply run the following command in the client host terminal window:
+
+```bash
+bash ./quic_client_batch.sh <number of clients>
+```
+where `<number of clients>` is an integer indicating the number of processes you want to initiate.
+
+# Use `iptraf` to measure throughput
+
+In a new terminal, run the following command:
+
+```bash
+rm ./iptraf_log.txt; iptraf-ng -i h1-eth0 -L ./iptraf_log.txt
+```
+
+This will first remove any existing log file, then start the `iptraf`'s traffic monitor on `h1-eth0` Ethernet interface and log to the specified file `iptraf_log.txt`.
+
