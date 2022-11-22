@@ -39,10 +39,13 @@ mininet-prereqs:
 	docker exec -it mn-stratum bash -c \
 		"echo deb http://deb.debian.org/debian buster main non-free contrib > /etc/apt/sources.list.d/test.list ; \
 		 apt-get update ; \
-		 apt-get install libgtk-3-0 libnss3-tools libc6 iptraf -y; \
+		 apt-get install libgtk-3-0 libnss3-tools libc6 -y ; \
+		 apt-get install /workdir/google-chrome-stable_current_amd64.deb -y ; \
 		 mkdir -p /workdir/.pki/nssdb ; \
 		 certutil -d /workdir/.pki/nssdb -N --empty-password ; \
-		 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n quic_cert -i out/2048-sha256-root.pem"
+		 certutil -d sql:$HOME/.pki/nssdb -A -t "C,," -n quic_cert -i out/2048-sha256-root.pem ; \
+		 mkdir -p /var/run/dbus ; \
+		 dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address"
 
 controller:
 	ONOS_APPS=gui,proxyarp,drivers.bmv2,lldpprovider,hostprovider \

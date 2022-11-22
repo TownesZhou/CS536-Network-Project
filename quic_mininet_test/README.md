@@ -103,3 +103,15 @@ rm ./iptraf_log.txt; iptraf-ng -i h1-eth0 -L ./iptraf_log.txt
 
 This will first remove any existing log file, then start the `iptraf`'s traffic monitor on `h1-eth0` Ethernet interface and log to the specified file `iptraf_log.txt`.
 
+# Use Google Chrome as Client
+
+Install google chrome:
+```bash
+docker exec -it mn-stratum bash -c "apt install ./google-chrome-stable_current_amd64.deb"
+```
+
+Run chrome inside the client host:
+```bash
+google-chrome  --no-sandbox  --headless --disable-gpu   --user-data-dir=/tmp/chrome-profile   --no-proxy-server   --enable-quic   --origin-to-force-quic-on=www.example.org:443   --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat out/fingerprints.txt)   https://www.example.org/image.jpeg
+```
+
