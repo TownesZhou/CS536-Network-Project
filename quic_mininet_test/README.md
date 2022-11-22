@@ -89,9 +89,9 @@ If succssful, you should see a `quic_client_out.txt` file with size `9.8M`.
 I made a simple bash script that initiate a given number of QUIC client processes parallelly in the backgroud. Simply run the following command in the client host terminal window:
 
 ```bash
-bash ./quic_client_batch.sh <number of clients>
+bash ./batch_clients.sh <number of TOY QUIC clients> <number of WGET HTTP clients>
 ```
-where `<number of clients>` is an integer indicating the number of processes you want to initiate.
+where `<number of TOY QUIC clients>` and `<number of WGET HTTP clients>` is an integer indicating the number of processes you want to initiate for the toy quic client (NOT the Chrome client) and the WGET HTTP client (provided a HTTP server has been started), respectively.
 
 # Use Google Chrome as Client
 
