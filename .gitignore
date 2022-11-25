@@ -127,3 +127,13 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Ignore Mac os DS_Store
+.DS_Store
+
+# Ignore Quic and certificate binaries
+Quic/
+out/
+
+# Ignore CA certificate database
+.pki/

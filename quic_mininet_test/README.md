@@ -22,15 +22,15 @@ Open up another terminal window in the same directory. Run the following command
 make mininet-prereqs
 ```
 
-When it asks for password with something like this `Enter Password or Pin for "NSS Certificate DB"`, just hit enter multiple times to enter empty passwords.
+When it asks for password with something like this `Enter Password or Pin for "NSS Certificate DB"`, just hit enter multiple times to enter empty passwords. In the final line of output you will see something like `unix:path=/var/run/dbus/system_bus_socket,guid=ed0e8d608caf8959c5962a6a637d36c8` and the terminal will be stuck there. This is the `dbus-daemon` process running, which is necessary for Google Chrome. **DO NOT press `ctrl + C` to terminate this process.** 
 
-After it finishes, run the following command to start the controller:
+Open up a third terminal window and run the following command to start the controller:
 
 ```bash
 make controller
 ```
 
-Open up a third terminal window and run the following command:
+Open up a fourth terminal window and run the following command:
 
 ```bash
 make cli
@@ -42,7 +42,7 @@ This will start the ONOS cli. Enter `rocks` when it asks for password. Once it s
 app activate fwd
 ```
 
-Open up the fourth terminal window and run the following command to set up the switch:
+Open up the fifth terminal window and run the following command to set up the switch:
 
 ```bash
 make netcfg
@@ -83,4 +83,20 @@ Finally, try to download the `image.jpeg` file:
 ```
 
 If succssful, you should see a `quic_client_out.txt` file with size `9.8M`.  
+
+### Run multiple QUIC client processes parallelly
+
+I made a simple bash script that initiate a given number of QUIC client processes parallelly in the backgroud. Simply run the following command in the client host terminal window:
+
+```bash
+bash ./batch_clients.sh <number of TOY QUIC clients> <number of WGET HTTP clients>
+```
+where `<number of TOY QUIC clients>` and `<number of WGET HTTP clients>` is an integer indicating the number of processes you want to initiate for the toy quic client (NOT the Chrome client) and the WGET HTTP client (provided a HTTP server has been started), respectively.
+
+# Use Google Chrome as Client
+
+Run chrome inside the client host to connet to the QUIC server (the QUIC server must have alreay been started in the server host `host-h2`):
+```bash
+google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat fingerprints.txt) https://www.example.org/image.jpeg
+```
 
