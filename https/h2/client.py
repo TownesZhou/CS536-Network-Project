@@ -15,6 +15,7 @@ if __name__ == '__main__':
 
     size = ["5KB", "10KB", "100KB", "200KB", "500KB", "1MB", "10MB"]
     file_number = {"5KB":[1, 200], "10KB":[1, 100], "100KB":[1, 10], "200KB":[1, 5], "500KB":[1, 2], "1MB":[1], "10MB":[1]}
+    time = 0
 
     for total_size in size:
         for number in file_number[total_size]:          
@@ -22,10 +23,11 @@ if __name__ == '__main__':
             for i in range(number):
                 os.system("wget --no-check-certificate -P ./files https://10.0.0.1:8000/files/test_%s_%d_%d.txt" % (total_size, number, i))
             end = time.time()
-            print("size:", total_size, " number:", file_number, " download time:", end - start)
+            time = (end - start) * 1000
+            print("size:", total_size, " number:", file_number, " download time:", time)
             with open("result.csv","a") as csvfile: 
                 writer = csv.writer(csvfile)
-                writer.writerow([total_size, number, end - start])
+                writer.writerow([total_size, number, time])
 
 #     if os.path.exists("./test.txt"):
 #         os.remove("./test.txt")
