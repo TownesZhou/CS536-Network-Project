@@ -1,6 +1,6 @@
 # Compare QUIC with HTTP
 
-## QUIC Server and Client Setup in Mininet
+## Setup QUIC Server and Client in Mininet
 
 ### Download QUIC binaries and Google Chrome
 
@@ -124,3 +124,29 @@ Run chrome inside the client host `host-h2` to connet to the QUIC server (the QU
 google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.1:6121' --ignore-certificate-errors-spki-list=$(cat quic/certs/fingerprints.txt) https://www.example.org/test.txt
 ```
 
+
+## Setup HTTP server in mininet
+
+Generate certificates for the HTTP server. Go to `https/` directory and run the `ssl.sh` file:
+
+```bash
+cd https
+bash ssl.sh
+```
+
+Generate a SPKI fingerprint from the QUIC server's public key:
+```bash
+cd h1
+openssl x509 -pubkey < "server.crt" | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64 > "fingerprints.txt"
+```
+
+Go into the server host `host-h1`, run the HTTP server **under the `https/h1` directory**
+```bash
+python server.py
+```
+
+Go into the client host `host-h2`, run Google chrome **under the root directory** to download a file from the HTTP server:
+
+```bash
+google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --ignore-certificate-errors-spki-list=$(cat https/h1/fingerprints.txt) --disk-cache-dir=/dev/null  https://10.0.0.1:8000/files/test_500KB_1_0.txt
+```
