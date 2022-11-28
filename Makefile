@@ -39,7 +39,7 @@ mininet-prereqs:
 	docker exec -it mn-stratum bash -c \
 		"echo deb http://deb.debian.org/debian buster main non-free contrib > /etc/apt/sources.list.d/test.list ; \
 		 apt-get update ; \
-		 apt-get install libgtk-3-0 libnss3-tools libc6 -y ; \
+		 apt-get install libgtk-3-0 libnss3-tools libc6 iptraf -y ; \
 		 apt-get install /workdir/google-chrome-stable_current_amd64.deb -y ; \
 		 mkdir -p /workdir/.pki/nssdb ; \
 		 certutil -d /workdir/.pki/nssdb -N --empty-password ; \
