@@ -65,4 +65,4 @@ host-h2:
 
 quic-server:
 	$(SCRIPTS)/utils/mn-stratum/exec-d-script h2 \
-		"./Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=out/leaf_cert.pem --key_file=out/leaf_cert.pkcs8"
+		"./quic/Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=quic/out/leaf_cert.pem --key_file=quic/out/leaf_cert.pkcs8"
