@@ -119,6 +119,7 @@ openssl x509 -pubkey < "quic/out/leaf_cert.pem" | openssl pkey -pubin -outform d
 This should generate a `fingerprints.txt` file under the `quic/out` directory.
 
 Run chrome inside the client host `host-h1` to connet to the QUIC server (the QUIC server must have alreay been started in the server host `host-h2`):
+
 ```bash
 google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat quic/out/fingerprints.txt) https://www.example.org/test.txt
 ```
