@@ -64,10 +64,10 @@ make netcfg
 
 The QUIC binaries are shipped with a QUIC server and a QUIC toy client program. We will use the QUIC server program to setup the server and first use the toy client program to check that this setup is correct. Later, we will use **Google Chrome** as the client instead.
 
-Open up the fifth terminal window, and run the following terminal to enter **host 2**:
+Open up the fifth terminal window, and run the following terminal to enter **host 1**:
 
 ```bash
-make host-h2
+make host-h1
 ```
 
 Then, run the following command to run the QUIC server:
@@ -76,16 +76,16 @@ Then, run the following command to run the QUIC server:
 ./quic/Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=quic/certs/leaf_cert.pem --key_file=quic/certs/leaf_cert.pkcs8
 ```
 
-Finally, open up the sixth terminal window, and run the following to enter **host 1**:
+Finally, open up the sixth terminal window, and run the following to enter **host 2**:
 
 ```bash
-make host-h1
+make host-h2
 ```
 
 Then, run the following command to run the QUIC toy client to try to access the `index.html` file:
 
 ```bash
-./quic/Quic/quic_client --host=10.0.0.2 --port=6121 https://www.example.org/ --disable_certificate_verification > quic_client_out.txt
+./quic/Quic/quic_client --host=10.0.0.1 --port=6121 https://www.example.org/ --disable_certificate_verification > quic_client_out.txt
 ```
 
 If successful, you should see the `quic_client_out.txt` in the current directory.
@@ -93,7 +93,7 @@ If successful, you should see the `quic_client_out.txt` in the current directory
 Finally, try to download the 500KB text file `test_500KB.txt`:
 
 ```bash
-./quic/Quic/quic_client --host=10.0.0.2 --port=6121 https://www.example.org/test.txt --disable_certificate_verification > quic_client_out.txt
+./quic/Quic/quic_client --host=10.0.0.1 --port=6121 https://www.example.org/test.txt --disable_certificate_verification > quic_client_out.txt
 ```
 
 If succssful, you should see a `quic_client_out.txt` file with size `504K`.  
@@ -118,9 +118,9 @@ openssl x509 -pubkey < "quic/certs/leaf_cert.pem" | openssl pkey -pubin -outform
 ```
 This should generate a `fingerprints.txt` file under the `quic/certs` directory.
 
-Run chrome inside the client host `host-h1` to connet to the QUIC server (the QUIC server must have alreay been started in the server host `host-h2`):
+Run chrome inside the client host `host-h2` to connet to the QUIC server (the QUIC server must have alreay been started in the server host `host-h1`):
 
 ```bash
-google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat quic/certs/fingerprints.txt) https://www.example.org/test.txt
+google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.1:6121' --ignore-certificate-errors-spki-list=$(cat quic/certs/fingerprints.txt) https://www.example.org/test.txt
 ```
 
