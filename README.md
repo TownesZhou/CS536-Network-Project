@@ -125,7 +125,7 @@ google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-
 ```
 
 
-## Setup HTTP server in mininet
+## Setup HTTPS server in mininet
 
 Generate certificates for the HTTP server. Go to `https/` directory and run the `ssl.sh` file:
 
@@ -150,3 +150,5 @@ Go into the client host `host-h2`, run Google chrome **under the root directory*
 ```bash
 google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --ignore-certificate-errors-spki-list=$(cat https/h1/fingerprints.txt) --disk-cache-dir=/dev/null  https://10.0.0.1:8000/files/test_500KB_1_0.txt
 ```
+
+This will download the file `test_500KB_1_0.txt`. There are many other test files of varying sizes under the directory `https/h1/files`. Simply change the url to the corresponding file to download those other files.
