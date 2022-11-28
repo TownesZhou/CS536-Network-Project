@@ -1,12 +1,24 @@
-# Run QUIC server and client within mininet
+# Compare QUIC with HTTP
 
-Download the QUIC binaries from [here](https://drive.google.com/file/d/1aLskldTWSjkwHhLZJ-VHQ5FJjE0ZtQO2/view?usp=share_link) and the certificate files from [here](https://drive.google.com/file/d/1KUiLFjDsEG8iBZt1cIi0Kmuz3d_aXKTq/view?usp=share_link). **Extract the two compressed files into the `/quic_mininet_test/mininet/` directory.** For the rest of this guide, we will assume all the commands are run in this directory `/quic_mininet_test/mininet/`.
+## QUIC Server and Client Setup in Mininet
 
-The QUIC binaries will be extracted to `Quic` and the certificate files will be extracted to `out`.
+### Download QUIC binaries, certificates, and Google Chrome
 
-## Start `mn-stratum` docker image and set up Mininet
+Download the QUIC binaries from [here](https://drive.google.com/file/d/1aLskldTWSjkwHhLZJ-VHQ5FJjE0ZtQO2/view?usp=share_link) and the certificate files from [here](https://drive.google.com/file/d/1KUiLFjDsEG8iBZt1cIi0Kmuz3d_aXKTq/view?usp=share_link). **Extract the two compressed files into the `quic/` directory.** 
 
-Open a new terminal window and cd into the same directory of `/quic_mininet_test/mininet/`. Run the following command:
+The QUIC binaries should be extracted to `quic/Quic` directory and the certificate files should be extracted to `quic/out` directory.
+
+Download Google Chrome:
+
+```bash
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+```
+
+You should see a `google-chrome-stable_current_amd64.deb` file appear under the root directory.
+
+### Start `mn-stratum` docker image and set up Mininet
+
+Open a new terminal window at the root directory of this repo. Run the following command:
 
 ```bash
 make mininet
@@ -48,7 +60,9 @@ Open up the fifth terminal window and run the following command to set up the sw
 make netcfg
 ```
 
-## Run Quic client and server within Mininet hosts
+### Run Quic server and test with toy client
+
+The QUIC binaries are shipped with a QUIC server and a QUIC toy client program. We will use the QUIC server program to setup the server and first use the toy client program to check that this setup is correct. Later, we will use **Google Chrome** as the client instead.
 
 Open up the fifth terminal window, and run the following terminal to enter **host 2**:
 
@@ -59,7 +73,7 @@ make host-h2
 Then, run the following command to run the QUIC server:
 
 ```bash
-./Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=out/leaf_cert.pem --key_file=out/leaf_cert.pkcs8
+./quic/Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=quic/out/leaf_cert.pem --key_file=quic/out/leaf_cert.pkcs8
 ```
 
 Finally, open up the sixth terminal window, and run the following to enter **host 1**:
@@ -68,35 +82,44 @@ Finally, open up the sixth terminal window, and run the following to enter **hos
 make host-h1
 ```
 
-Then, run the following command to run the QUIC client to try to access the `index.html` file:
+Then, run the following command to run the QUIC toy client to try to access the `index.html` file:
 
 ```bash
-./Quic/quic_client --host=10.0.0.2 --port=6121 https://www.example.org/ --disable_certificate_verification > quic_client_out.txt
+./quic/Quic/quic_client --host=10.0.0.2 --port=6121 https://www.example.org/ --disable_certificate_verification > quic_client_out.txt
 ```
 
 If successful, you should see the `quic_client_out.txt` in the current directory.
 
-Finally, try to download the `image.jpeg` file:
+Finally, try to download the 500KB text file `test_500KB.txt`:
 
 ```bash
-./Quic/quic_client --host=10.0.0.2 --port=6121 https://www.example.org/image.jpeg --disable_certificate_verification > quic_client_out.txt
+./quic/Quic/quic_client --host=10.0.0.2 --port=6121 https://www.example.org/test.txt --disable_certificate_verification > quic_client_out.txt
 ```
 
-If succssful, you should see a `quic_client_out.txt` file with size `9.8M`.  
+If succssful, you should see a `quic_client_out.txt` file with size `504K`.  
 
-### Run multiple QUIC client processes parallelly
+<!-- ### Run multiple QUIC client processes parallelly
 
 I made a simple bash script that initiate a given number of QUIC client processes parallelly in the backgroud. Simply run the following command in the client host terminal window:
 
 ```bash
 bash ./batch_clients.sh <number of TOY QUIC clients> <number of WGET HTTP clients>
 ```
-where `<number of TOY QUIC clients>` and `<number of WGET HTTP clients>` is an integer indicating the number of processes you want to initiate for the toy quic client (NOT the Chrome client) and the WGET HTTP client (provided a HTTP server has been started), respectively.
+where `<number of TOY QUIC clients>` and `<number of WGET HTTP clients>` is an integer indicating the number of processes you want to initiate for the toy quic client (NOT the Chrome client) and the WGET HTTP client (provided a HTTP server has been started), respectively. -->
 
-# Use Google Chrome as Client
+### Use Google Chrome as Client
 
-Run chrome inside the client host to connet to the QUIC server (the QUIC server must have alreay been started in the server host `host-h2`):
+We will now use Google Chrome instead of the toy QUIC client as the client process. 
+
+Generate a SPKI fingerprint from the QUIC server's public key:
+
 ```bash
-google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat fingerprints.txt) https://www.example.org/image.jpeg
+openssl x509 -pubkey < "quic/out/leaf_cert.pem" | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64 > "quic/out/fingerprints.txt"
+```
+This should generate a `fingerprints.txt` file under the `quic/out` directory.
+
+Run chrome inside the client host `host-h1` to connet to the QUIC server (the QUIC server must have alreay been started in the server host `host-h2`):
+```bash
+google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat quic/out/fingerprints.txt) https://www.example.org/test.txt
 ```
 
