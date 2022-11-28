@@ -2,11 +2,11 @@
 
 ## QUIC Server and Client Setup in Mininet
 
-### Download QUIC binaries, certificates, and Google Chrome
+### Download QUIC binaries and Google Chrome
 
-Download the QUIC binaries from [here](https://drive.google.com/file/d/1aLskldTWSjkwHhLZJ-VHQ5FJjE0ZtQO2/view?usp=share_link) and the certificate files from [here](https://drive.google.com/file/d/1KUiLFjDsEG8iBZt1cIi0Kmuz3d_aXKTq/view?usp=share_link). **Extract the two compressed files into the `quic/` directory.** 
+Download the QUIC binaries from [here](https://drive.google.com/file/d/1aLskldTWSjkwHhLZJ-VHQ5FJjE0ZtQO2/view?usp=share_link) **Extract the compressed file into the `quic/` directory.** 
 
-The QUIC binaries should be extracted to `quic/Quic` directory and the certificate files should be extracted to `quic/out` directory.
+The QUIC binaries should be extracted to `quic/Quic` directory. There is another directory `quic/certs` which contains the example certificates, which we will later use to set up the QUIC server.
 
 Download Google Chrome:
 
