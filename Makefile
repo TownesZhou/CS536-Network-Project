@@ -43,7 +43,7 @@ mininet-prereqs:
 		 apt-get install /workdir/google-chrome-stable_current_amd64.deb -y ; \
 		 mkdir -p /workdir/.pki/nssdb ; \
 		 certutil -d /workdir/.pki/nssdb -N --empty-password ; \
-		 certutil -d sql:/workdir/.pki/nssdb -A -t "C,," -n quic_cert -i /workdir/quic/out/2048-sha256-root.pem ; \
+		 certutil -d sql:/workdir/.pki/nssdb -A -t "C,," -n quic_cert -i /workdir/quic/certs/2048-sha256-root.pem ; \
 		 mkdir -p /var/run/dbus ; \
 		 dbus-daemon --config-file=/usr/share/dbus-1/system.conf --print-address"
 

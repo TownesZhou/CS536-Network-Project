@@ -73,7 +73,7 @@ make host-h2
 Then, run the following command to run the QUIC server:
 
 ```bash
-./quic/Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=quic/out/leaf_cert.pem --key_file=quic/out/leaf_cert.pkcs8
+./quic/Quic/quic_server --quic_response_cache_dir=www.example.org --certificate_file=quic/certs/leaf_cert.pem --key_file=quic/certs/leaf_cert.pkcs8
 ```
 
 Finally, open up the sixth terminal window, and run the following to enter **host 1**:
@@ -114,13 +114,13 @@ We will now use Google Chrome instead of the toy QUIC client as the client proce
 Generate a SPKI fingerprint from the QUIC server's public key:
 
 ```bash
-openssl x509 -pubkey < "quic/out/leaf_cert.pem" | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64 > "quic/out/fingerprints.txt"
+openssl x509 -pubkey < "quic/certs/leaf_cert.pem" | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | base64 > "quic/certs/fingerprints.txt"
 ```
-This should generate a `fingerprints.txt` file under the `quic/out` directory.
+This should generate a `fingerprints.txt` file under the `quic/certs` directory.
 
 Run chrome inside the client host `host-h1` to connet to the QUIC server (the QUIC server must have alreay been started in the server host `host-h2`):
 
 ```bash
-google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat quic/out/fingerprints.txt) https://www.example.org/test.txt
+google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-profile --no-proxy-server --enable-quic --origin-to-force-quic-on=www.example.org:443 --host-resolver-rules='MAP www.example.org:443 10.0.0.2:6121' --ignore-certificate-errors-spki-list=$(cat quic/certs/fingerprints.txt) https://www.example.org/test.txt
 ```
 
