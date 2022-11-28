@@ -137,3 +137,6 @@ out/
 
 # Ignore CA certificate database
 .pki/
+
+# Ignore QUIC toy client output file
+quic_client_out.txt
