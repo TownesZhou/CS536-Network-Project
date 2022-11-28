@@ -37,9 +37,9 @@ mkdir ca
 # mkdir client
 
 # 生成私钥
-openssl genrsa -out ca.key 1024
-openssl genrsa -out server.key 1024
-openssl genrsa -out client.key 1024
+openssl genrsa -out ca.key 2048
+openssl genrsa -out server.key 2048
+openssl genrsa -out client.key 2048
 
 # 根据私钥创建证书请求文件，需要输入一些证书的元信息：邮箱、域名等
 openssl req -out ca.req -key ca.key -new -config ./ca_cert.conf -nodes -subj '/CN=10.0.0.1'
