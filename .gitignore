@@ -131,9 +131,11 @@ dmypy.json
 # Ignore Mac os DS_Store
 .DS_Store
 
-# Ignore Quic and certificate binaries
+# Ignore Quic binaries
 Quic/
-out/
 
 # Ignore CA certificate database
 .pki/
+
+# Ignore QUIC toy client output file
+quic_client_out.txt

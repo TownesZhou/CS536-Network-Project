@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PYTHON_DOCKER_NAME=${PYTHON_DOCKER_NAME:-python}
+PYTHON_IMG=${PYTHON_IMG:-jupyter/datascience-notebook}
+PYTHON_MOUNT_DIR=${PYTHON_MOUNT_DIR:-$PWD}
+
+docker run -it --rm \
+  --name $PYTHON_DOCKER_NAME \
+  --network host \
+  -v "$PYTHON_MOUNT_DIR":/workdir -w /workdir \
+  $PYTHON_IMG python "$@"
