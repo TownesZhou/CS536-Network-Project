@@ -152,3 +152,6 @@ google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-
 ```
 
 This will download the file `test_500KB_1_0.txt`. There are many other test files of varying sizes under the directory `https/h1/files`. Simply change the url to the corresponding file to download those other files.
+
+# Latency Heatmap for different file size and # files between TCP and quic
+![Screenshot](fdt_tcp_vs_quic_google_chrome_comparison.png.png)
