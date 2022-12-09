@@ -1,4 +1,4 @@
-# Compare QUIC with HTTP
+# Reproducing "Taking a long look at QUIC" | CS536 Networking Project 
 
 ## Setup QUIC Server and Client in Mininet
 
