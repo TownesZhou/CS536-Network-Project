@@ -153,8 +153,8 @@ google-chrome --no-sandbox --headless --disable-gpu --user-data-dir=/tmp/chrome-
 
 This will download the file `test_500KB_1_0.txt`. There are many other test files of varying sizes under the directory `https/h1/files`. Simply change the url to the corresponding file to download those other files.
 
-### Latency Comparison Heatmap between QUIC vs TCP
-![FDT results figure](fdt_tcp_vs_quic_google_chrome_comparison.png)
+### Results
+Check out our findings in this [presention](https://docs.google.com/presentation/d/1NSAN5TM-EfgM57mA8zNueP0_KmoWeqzQfZlWAnvBnpE/edit?usp=sharing)
 
 ### Demo Video
 Check out the demo video of reproducing our experiments [here](https://youtu.be/CJ5e01bjwcw). 
